@@ -6,6 +6,7 @@ from Crypto import Random
 from Crypto.Hash import SHA256
 import base64
 import sys
+import argparse
 # padding used -> PKCS7
 
 def encrypt(key, message, keytype):
@@ -22,7 +23,7 @@ def encrypt(key, message, keytype):
     init_vector = Random.new().read(AES.block_size)
     cipher = AES.new(key,AES.MODE_CBC, init_vector)
     data = init_vector + cipher.encrypt(pad(message,AES.block_size)) # maintaining access to IV
-    return base64.b64encode(data).encode()
+    return base64.b64encode(data).decode()
     # return data
 
 def decrypt(key, message, keytype):
@@ -43,16 +44,34 @@ def decrypt(key, message, keytype):
     return final
 
 if __name__ == "__main__":
-    choice = sys.argv[1]
-    if choice =="encrypt":
-        message = sys.argv[2]
-        key = sys.argv[3]
-        keytype = sys.argv[4]
-        print(encrypt(key,message,keytype))
+    # choice = sys.argv[1]
+    # if choice =="encrypt":
+    #     message = sys.argv[2]
+    #     key = sys.argv[3]
+    #     keytype = sys.argv[4]
+    #     print(encrypt(key,message,keytype))
     
-    elif choice =="decrypt":
-        cipher_text = sys.argv[2]
-        key = sys.argv[3]
-        keytype = sys.argv[4]
-        print(decrypt(key,cipher_text,keytype))
+    # elif choice =="decrypt":
+    #     cipher_text = sys.argv[2]
+    #     key = sys.argv[3]
+    #     keytype = sys.argv[4]
+    #     print(decrypt(key,cipher_text,keytype))
+
+    parser= argparse.ArgumentParser(description = 'command for encryption/decryption');
+    parser.add_argument('-e','--encrypt', action='store_true')
+    parser.add_argument('-d','--decrypt', action='store_true')
+    parser.add_argument('-k', '--key', type=str)
+    parser.add_argument('-ky', '--keytype', type=str)
+    parser.add_argument('-m', '--message', type=str)
+
+    args=parser.parse_args()
+
+    if args.encrypt:
+        print(encrypt(args.key, args.message, args.keytype))
+    elif args.decrypt:
+        print(decrypt(args.key, args.message, args.keytype))
+        
+
+
+
 
