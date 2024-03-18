@@ -44,18 +44,6 @@ def decrypt(key, message, keytype):
     return final
 
 if __name__ == "__main__":
-    # choice = sys.argv[1]
-    # if choice =="encrypt":
-    #     message = sys.argv[2]
-    #     key = sys.argv[3]
-    #     keytype = sys.argv[4]
-    #     print(encrypt(key,message,keytype))
-    
-    # elif choice =="decrypt":
-    #     cipher_text = sys.argv[2]
-    #     key = sys.argv[3]
-    #     keytype = sys.argv[4]
-    #     print(decrypt(key,cipher_text,keytype))
 
     parser= argparse.ArgumentParser(description = 'command for encryption/decryption');
     parser.add_argument('-e','--encrypt', action='store_true')
